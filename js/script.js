@@ -18,7 +18,7 @@ console.log("end of line test");
 
 let popData = (data) => {
    let dataBody =  document.createElement("div");
-   dataBody.classList.add(".user-info");
+   dataBody.classList.add("user-info");
    dataBody.innerHTML = `<figure>
    <img alt="user avatar" src=${data.avatar_url} />
  </figure>
