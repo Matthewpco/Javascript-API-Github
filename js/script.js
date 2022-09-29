@@ -1,25 +1,25 @@
-// Targeting for user info api area
+// Targeting document sections and setting Github user name
 var overview = document.querySelector(".overview");
-//Github username
-var gitUserName = "Matthewpco";
-// Targeting list
 var repoList = document.querySelector(".repo-list");
-// Targeting repos section
-var repoSection = document.querySelector(".repos");
+var reposSection = document.querySelector(".repos");
 var repoDataSection = document.querySelector(".repo-data");
+var backButton = document.querySelector("button");
+var filterInput = document.querySelector("input");
+var gitUserName = "Matthewpco";
+
 
 // Fetch Github user data
 const getUserData = async function() {
     const res = await fetch(
         `https://api.github.com/users/${gitUserName}`
         );
-
         const uData = await res.json();
         popData(uData);
 }
 getUserData();
 
-// Populate fetched data 
+
+// Populate fetched user data 
 let popData = (uData) => {
    let dataBody =  document.createElement("div");
    dataBody.classList.add("user-info");
@@ -48,8 +48,8 @@ const getRepoData = async function () {
 };
 
 // Populate repo data
-
 const popRepo = (repoData) => {
+  filterInput.classList.remove("hide");
   for (const repo of repoData) {
     const repoLi = document.createElement("li");
     repoLi.classList.add("repo");
@@ -58,12 +58,16 @@ const popRepo = (repoData) => {
   }
 };
 
+
+// When a repo list element is clicked that matches h3 it will fetch repo sub data
 repoList.addEventListener("click", (e) => {
   if (e.target.matches("h3")) {
     const repoName = e.target.innerText;
     getRepoSubData(repoName);
   }
-})
+});
+
+
 // Fetch repo sub data for event listener
 const getRepoSubData = async function (repoName) {
   const res = await fetch(
@@ -77,9 +81,10 @@ const getRepoSubData = async function (repoName) {
     languages.push(language)
   }
   popRepoSubData(repoSubData, languages);
-}
+};
 
-//Display repo data
+
+//Display repo sub data
 const popRepoSubData = (repoSubData, languages) => {
   repoDataSection.innerHTML = "";
   const repoSubDiv = document.createElement("div");
@@ -92,5 +97,31 @@ const popRepoSubData = (repoSubData, languages) => {
     `;
     repoDataSection.append(repoSubDiv)
     repoDataSection.classList.remove("hide")
-    repoSection.classList.add("hide")
-}
+    reposSection.classList.add("hide")
+    backButton.classList.remove("hide");
+};
+
+// Event listeners
+
+backButton.addEventListener("click", () => {
+  reposSection.classList.remove("hide");
+  repoDataSection.classList.add("hide");
+  backButton.classList.add("hide");
+});
+
+filterInput.addEventListener("input", (e) => {
+  let searchInput = e.target.value;
+  const repoSection = document.querySelectorAll(".repo");
+  searchInputLc = searchInput.toLowerCase();
+  console.log(searchInputLc)
+  for (const repoSearch of repoSection) {
+    const repoValueLc = repoSearch.innerText.toLowerCase();
+    if (repoValueLc.includes(searchInputLc)) {
+      repoSearch.classList.remove("hide")
+
+    }
+    else {
+      repoSearch.classList.add("hide")
+    }
+  }
+});
