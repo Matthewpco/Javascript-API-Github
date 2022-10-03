@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/Matthewpco/Javascript-api-github/javascript-api-github.jpg)
+![](https://raw.githubusercontent.com/Matthewpco/Javascript-API-Github/main/Javascript-api-github.jpg)
 
 # This is a custom JavaScript template to add Github API functionality and display user data as well as repository info via fetch with JS.
 
